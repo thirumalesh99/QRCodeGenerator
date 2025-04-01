@@ -1,8 +1,10 @@
 package com.example.qrcodegenerator
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -41,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.database.FirebaseDatabase
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,7 +166,34 @@ fun QRCodeSignUp() {
 
             // Sign In Button
             Button(
-                onClick = { /* TODO: Sign In action */ },
+                onClick = {
+                    when {
+                        email.isEmpty() -> {
+                            Toast.makeText(context, " Please Enter Mail", Toast.LENGTH_SHORT).show()
+                        }
+                        fullname.isEmpty() -> {
+                            Toast.makeText(context, " Please Enter Name", Toast.LENGTH_SHORT).show()
+                        }
+
+                        country.isEmpty() -> {
+                            Toast.makeText(context, " Please Enter Country", Toast.LENGTH_SHORT).show()
+                        }
+                        password.isEmpty() -> {
+                            Toast.makeText(context, " Please Enter Password", Toast.LENGTH_SHORT).show()
+                        }
+
+                        else -> {
+                            val userData = UserData(
+                                fullname,
+                                email,
+                                country,
+                                password
+                            )
+                            registerUser(userData,context)
+                        }
+
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
@@ -202,3 +232,39 @@ fun QRCodeSignUp() {
 
     }
 }
+
+fun registerUser(userData: UserData, context: Context) {
+
+    val firebaseDatabase = FirebaseDatabase.getInstance()
+    val databaseReference = firebaseDatabase.getReference("UserData")
+
+    databaseReference.child(userData.emailid.replace(".", ","))
+        .setValue(userData)
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(context, "You Registered Successfully", Toast.LENGTH_SHORT)
+                    .show()
+
+            } else {
+                Toast.makeText(
+                    context,
+                    "Registration Failed",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        .addOnFailureListener { _ ->
+            Toast.makeText(
+                context,
+                "Something went wrong",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+}
+
+data class UserData(
+    var name : String = "",
+    var emailid : String = "",
+    var country : String = "",
+    var password: String = ""
+)
