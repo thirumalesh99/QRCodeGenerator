@@ -12,9 +12,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,10 +20,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.qrcodegenerator.ui.theme.QRCodeGeneratorTheme
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
@@ -41,6 +38,9 @@ class MainActivity : ComponentActivity() {
     private fun isUserLoggedIn(value: Int) {
 
         when (value) {
+            1 -> {
+                gotoHomeActivity(this)
+            }
             2 -> {
                 gotoSignInActivity(this)
             }
@@ -53,6 +53,9 @@ class MainActivity : ComponentActivity() {
 fun LoadingScreenCheck(isUserLoggedIn: (value: Int) -> Unit) {
     var splashValue by remember { mutableStateOf(true) }
 
+    val context = LocalContext.current as Activity
+
+
     LaunchedEffect(Unit) {
         delay(3000)
         splashValue = false
@@ -61,7 +64,15 @@ fun LoadingScreenCheck(isUserLoggedIn: (value: Int) -> Unit) {
     if (splashValue) {
         LoadingScreen()
     } else {
-        isUserLoggedIn.invoke(2)
+        val currentStatus = QRCodeGeneratorData.readLS(context)
+
+        if(currentStatus)
+        {
+            isUserLoggedIn.invoke(1)
+        }else{
+            isUserLoggedIn.invoke(2)
+        }
+
     }
 }
 
@@ -103,5 +114,10 @@ fun LoadingScreenPreview() {
 
 fun gotoSignInActivity(context: Activity) {
     context.startActivity(Intent(context, SignInActivity::class.java))
+    context.finish()
+}
+
+fun gotoHomeActivity(context: Activity) {
+    context.startActivity(Intent(context, QRCodeHomeActivity::class.java))
     context.finish()
 }

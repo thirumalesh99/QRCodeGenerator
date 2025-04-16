@@ -353,7 +353,12 @@ fun QRCodeHomeScreen() {
                 Column(
                     modifier = Modifier
                         .clickable {
-                            context.startActivity(Intent(context, SignInActivity::class.java))
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    GenerateQRCodeActivity::class.java
+                                )
+                            )
 
                         }
                         .weight(1f)
@@ -402,6 +407,14 @@ fun QRCodeHomeScreen() {
                 Column(
                     modifier = Modifier
                         .weight(1f)
+                        .clickable {
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    ScanQRCodeActivity::class.java
+                                )
+                            )
+                        }
                         .background(
                             color = colorResource(id = R.color.white),
                             shape = RoundedCornerShape(6.dp)

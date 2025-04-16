@@ -54,6 +54,8 @@ class SignInActivity : ComponentActivity() {
     }
 }
 
+
+
 @Composable
 fun QRCodeSignIn() {
     var email by remember { mutableStateOf("") }
@@ -196,7 +198,13 @@ fun userSignIn(userData: UserData, context: Context) {
             if (dbData != null) {
                 if (dbData.password == userData.password) {
 
+                    QRCodeGeneratorData.writeLS(context, true)
+                    QRCodeGeneratorData.writeMail(context, dbData.emailid)
+                    QRCodeGeneratorData.writeUserName(context, dbData.name)
+
                     Toast.makeText(context, "Login Sucessfully", Toast.LENGTH_SHORT).show()
+
+                    context.startActivity(Intent(context, QRCodeHomeActivity::class.java))
 
                 } else {
                     Toast.makeText(context, "Seems Incorrect Credentials", Toast.LENGTH_SHORT).show()
