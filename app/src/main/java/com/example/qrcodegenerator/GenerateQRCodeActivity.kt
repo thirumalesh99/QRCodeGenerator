@@ -1,5 +1,6 @@
 package com.example.qrcodegenerator
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -10,6 +11,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,8 +44,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
+import androidx.room.Room
+import com.example.qrcodegenerator.qrcodesdb.QrCodeDatabase
+import com.example.qrcodegenerator.qrcodesdb.QrCodeEntity
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
@@ -66,6 +75,8 @@ fun GenerateQRCodeScreenP() {
 fun GenerateQRCodeScreen(context: Context = LocalContext.current) {
 
     var content by remember { mutableStateOf("") }
+    var type by remember { mutableStateOf("") }
+
     var qrBitmap by remember { mutableStateOf<Bitmap?>(null) }
 
 
@@ -76,7 +87,10 @@ fun GenerateQRCodeScreen(context: Context = LocalContext.current) {
         Image(
             modifier = Modifier
                 .padding(12.dp)
-                .size(36.dp),
+                .size(36.dp)
+                .clickable {
+                    (context as Activity).finish()
+                },
             painter = painterResource(id = R.drawable.baseline_arrow_back_36),
             contentDescription = "Qr Code"
         )
@@ -136,22 +150,23 @@ fun GenerateQRCodeScreen(context: Context = LocalContext.current) {
 
             Spacer(modifier = Modifier.height(4.dp))
 
-//            TextField(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(horizontal = 12.dp)
-//                    .background(
-//                        brush = Brush.horizontalGradient(listOf(Color.White, Color.White)),
-//                        shape = RoundedCornerShape(16.dp)
-//                    ),
-//                value = content,
-//                onValueChange = { content = it },
-//                label = { Text("QR Code Type") }
-//            )
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp)
+                    .background(
+                        brush = Brush.horizontalGradient(listOf(Color.White, Color.White)),
+                        shape = RoundedCornerShape(16.dp)
+                    ),
+                value = type,
+                onValueChange = { type = it },
+                label = { Text("QR Code Type") }
+            )
 
             Button(
                 onClick = {
-                    qrBitmap = generateQRCode(content)
+                    val qrContent = "Content\n$content\n QR Code Type : $type"
+                    qrBitmap = generateQRCode(qrContent)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -186,6 +201,32 @@ fun GenerateQRCodeScreen(context: Context = LocalContext.current) {
                 ) {
                     Text("Share QR Code")
                 }
+
+                Button(
+                    onClick = {
+                        qrBitmap?.let { bitmap ->
+                            val outputStream = ByteArrayOutputStream()
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                            val imageBytes = outputStream.toByteArray()
+
+                            val db = Room.databaseBuilder(
+                                context,
+                                QrCodeDatabase::class.java,
+                                "qr_code_db"
+                            ).build()
+
+                            CoroutineScope(Dispatchers.IO).launch {
+                                db.qrCodeDao().insertQrCode(QrCodeEntity(content = content, type = type, image = imageBytes))
+                            }
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
+                ) {
+                    Text("Save QR Code")
+                }
+
             }
 
         }
@@ -194,57 +235,6 @@ fun GenerateQRCodeScreen(context: Context = LocalContext.current) {
 }
 
 
-@Composable
-fun GenerateQRCodeScreenOld(context: Context = LocalContext.current) {
-    var content by remember { mutableStateOf("") }
-    var qrBitmap by remember { mutableStateOf<Bitmap?>(null) }
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        // Your existing header UI...
-
-        TextField(
-            value = content,
-            onValueChange = { content = it },
-            label = { Text("Enter Content") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
-        )
-
-        Button(
-            onClick = {
-                qrBitmap = generateQRCode(content)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-        ) {
-            Text("Generate QR")
-        }
-
-        qrBitmap?.let { bitmap ->
-            Image(
-                bitmap = bitmap.asImageBitmap(),
-                contentDescription = "Generated QR Code",
-                modifier = Modifier
-                    .padding(16.dp)
-                    .size(200.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
-
-            Button(
-                onClick = {
-                    shareQRCode(context, bitmap)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
-            ) {
-                Text("Share QR Code")
-            }
-        }
-    }
-}
 
 fun generateQRCode(content: String): Bitmap? {
     return try {

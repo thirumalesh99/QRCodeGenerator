@@ -467,7 +467,15 @@ fun QRCodeHomeScreen() {
                         .background(
                             color = colorResource(id = R.color.white),
                             shape = RoundedCornerShape(6.dp)
-                        ),
+                        )
+                        .clickable {
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    SavedQrCodesActivity::class.java
+                                )
+                            )
+                        },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
