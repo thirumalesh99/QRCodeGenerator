@@ -1,5 +1,6 @@
-package com.example.qrcodegenerator
+package appproject.thirumalesh.qrcodegenerator
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -50,245 +51,6 @@ class QRCodeHomeActivity : ComponentActivity() {
 }
 
 
-@Composable
-fun QRCodeHomeScreenOld() {
-//    val context = LocalContext.current as Activity
-
-    var showDialog by remember { mutableStateOf(false) }
-
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorResource(id = R.color.soft_peach))
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = colorResource(id = R.color.crimson_red)
-                )
-                .padding(vertical = 6.dp, horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Spacer(modifier = Modifier.weight(1f))
-
-            Text(
-                text = "QR Code Home",
-                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                color = Color.White,
-            )
-            Spacer(modifier = Modifier.weight(1f))
-
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(color = Color.White)
-                .padding(12.dp)
-
-        ) {
-            Text(
-                text = "QR Code Management",
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                color = Color.Black,
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-
-                Column(
-                    modifier = Modifier
-                        .width(100.dp)
-                        .height(100.dp)
-                        .clickable {
-
-                        },
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_qrcode),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .height(36.dp)
-                            .width(36.dp)
-                    )
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    Text(
-                        text = "Generate QR",
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
-
-                Column(
-                    modifier = Modifier
-                        .width(100.dp)
-                        .height(100.dp)
-                        .clickable {
-
-                        },
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_qrcode),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .height(36.dp)
-                            .width(36.dp)
-                    )
-                    Spacer(modifier = Modifier.height(6.dp))
-
-
-                    Text(
-                        text = "Scan QR",
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
-
-                Column(
-                    modifier = Modifier
-                        .width(100.dp)
-                        .height(100.dp)
-                        .clickable {
-
-                        },
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_qrcode),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .height(36.dp)
-                            .width(36.dp)
-                    )
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    Text(
-                        text = "Edit QR",
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
-
-
-            }
-
-            Text(
-                text = "Account Management",
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                color = Color.Black,
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-
-
-                Column(
-                    modifier = Modifier
-                        .width(100.dp)
-                        .height(100.dp)
-                        .clickable {
-                            showDialog = true
-                        },
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_qrcode),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .height(36.dp)
-                            .width(36.dp)
-                    )
-                    Spacer(modifier = Modifier.height(6.dp))
-
-
-                    Text(
-                        text = "Summary",
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
-
-                Column(
-                    modifier = Modifier
-                        .width(100.dp)
-                        .height(100.dp)
-                        .clickable {
-
-                        },
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_qrcode),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .height(36.dp)
-                            .width(36.dp)
-                    )
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    Text(
-                        text = "My Profile",
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
-
-                Column(
-                    modifier = Modifier
-                        .width(100.dp)
-                        .height(100.dp)
-                        .clickable {
-
-                        },
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_qrcode),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .height(36.dp)
-                            .width(36.dp)
-                    )
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    Text(
-                        text = "Logout",
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
-
-
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
@@ -467,7 +229,15 @@ fun QRCodeHomeScreen() {
                         .background(
                             color = colorResource(id = R.color.white),
                             shape = RoundedCornerShape(6.dp)
-                        ),
+                        )
+                        .clickable {
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    SavedQrCodeActivity::class.java
+                                )
+                            )
+                        },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
@@ -494,7 +264,7 @@ fun QRCodeHomeScreen() {
                                 color = colorResource(id = R.color.color1),
                                 shape = RoundedCornerShape(6.dp)
                             ),
-                        text = "Customise QR Code",
+                        text = "Saved QR Codes",
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium.copy(
                             color = Color.White,
@@ -512,7 +282,15 @@ fun QRCodeHomeScreen() {
                         .background(
                             color = colorResource(id = R.color.white),
                             shape = RoundedCornerShape(6.dp)
-                        ),
+                        )
+                        .clickable {
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    DeleteQrCodeActivity::class.java
+                                )
+                            )
+                        },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
@@ -561,7 +339,128 @@ fun QRCodeHomeScreen() {
                         .background(
                             color = colorResource(id = R.color.white),
                             shape = RoundedCornerShape(6.dp)
-                        ),
+                        )
+                        .clickable {
+                            SelectedFile.selectedOption=1
+
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    AboutUsActivity::class.java
+                                )
+                            )
+                        },
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Image(
+                        modifier = Modifier
+                            .size(48.dp),
+                        painter = painterResource(id = R.drawable.ic_qrcode),
+                        contentDescription = "Qr Code"
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                color = colorResource(id = R.color.color1),
+                                shape = RoundedCornerShape(bottomStart = 6.dp, bottomEnd = 6.dp)
+                            )
+                            .border(
+                                width = 2.dp,
+                                color = colorResource(id = R.color.color1),
+                                shape = RoundedCornerShape(6.dp)
+                            ),
+                        text = "Contact Us",
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+
+                }
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(
+                            color = colorResource(id = R.color.white),
+                            shape = RoundedCornerShape(6.dp)
+                        )
+                        .clickable {
+                            SelectedFile.selectedOption=2
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    AboutUsActivity::class.java
+                                )
+                            )
+                        },
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Image(
+                        modifier = Modifier
+                            .size(48.dp),
+                        painter = painterResource(id = R.drawable.ic_qrcode),
+                        contentDescription = "Qr Code"
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                color = colorResource(id = R.color.color1),
+                                shape = RoundedCornerShape(bottomStart = 6.dp, bottomEnd = 6.dp)
+                            )
+                            .border(
+                                width = 2.dp,
+                                color = colorResource(id = R.color.color1),
+                                shape = RoundedCornerShape(6.dp)
+                            ),
+                        text = "About Us",
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(
+                            color = colorResource(id = R.color.white),
+                            shape = RoundedCornerShape(6.dp)
+                        )
+                        .clickable {
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    UserProfileActivity::class.java
+                                )
+                            )
+                        },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
@@ -606,7 +505,18 @@ fun QRCodeHomeScreen() {
                         .background(
                             color = colorResource(id = R.color.white),
                             shape = RoundedCornerShape(6.dp)
-                        ),
+                        )
+                        .clickable {
+                            QRCodeGeneratorData.writeLS(context, false)
+
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    SignInActivity::class.java
+                                )
+                            )
+                            (context as Activity).finish()
+                        },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 

@@ -2,15 +2,17 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
+
 
 }
 
 android {
-    namespace = "com.example.qrcodegenerator"
+    namespace = "appproject.thirumalesh.qrcodegenerator"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.qrcodegenerator"
+        applicationId = "appproject.thirumalesh.qrcodegenerator"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -81,6 +83,16 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.0")
     implementation("androidx.camera:camera-view:1.3.0")
     implementation("com.google.mlkit:barcode-scanning:17.1.0")
+
+    // Room components
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+// Kotlin coroutines support for Room
+    implementation("androidx.room:room-ktx:2.6.1")
+
+
+    implementation("androidx.biometric:biometric:1.4.0-alpha02")
 
 
 

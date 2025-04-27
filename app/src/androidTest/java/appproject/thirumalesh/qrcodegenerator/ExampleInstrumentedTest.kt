@@ -1,4 +1,4 @@
-package com.example.qrcodegenerator
+package appproject.thirumalesh.qrcodegenerator
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

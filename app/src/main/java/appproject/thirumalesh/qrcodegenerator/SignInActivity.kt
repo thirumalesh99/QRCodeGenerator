@@ -1,4 +1,4 @@
-package com.example.qrcodegenerator
+package appproject.thirumalesh.qrcodegenerator
 
 import android.app.Activity
 import android.content.Context
@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -41,35 +39,31 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.database.FirebaseDatabase
 
-class SignUpActivity : ComponentActivity() {
+class SignInActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            QRCodeSignUp()
+            QRCodeSignIn()
         }
     }
 }
 
-@Composable
-fun QRCodeSignUp() {
-    var fullname by remember { mutableStateOf("") }
-    var country by remember { mutableStateOf("") }
 
+@Composable
+fun QRCodeSignIn() {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    var confirmpassword by remember { mutableStateOf("") }
 
     val context = LocalContext.current as Activity
+
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = R.color.SkyBlue))// Background color for the entire screen
+            .background(color = colorResource(id = R.color.color1))// Background color for the entire screen // Background color for the entire screen
     ) {
         // Top section with an image and blue background
 
@@ -87,24 +81,10 @@ fun QRCodeSignUp() {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .background(color = colorResource(id = R.color.SkyBlue))// Background color for the entire screen
+                .background(color = colorResource(id = R.color.color1))// Background color for the entire screen
                 .padding(16.dp), // Padding for the fields
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        brush = Brush.horizontalGradient(listOf(Color.Gray, Color.Gray)),
-                        shape = RoundedCornerShape(16.dp)
-                    ),
-                value = fullname,
-                onValueChange = { fullname = it },
-                label = { Text("Enter FullName") }
-            )
-
-            Spacer(modifier = Modifier.height(6.dp)) // Space between fields
 
 
             TextField(
@@ -117,20 +97,6 @@ fun QRCodeSignUp() {
                 value = email,
                 onValueChange = { email = it },
                 label = { Text("Enter Your Email") }
-            )
-
-            Spacer(modifier = Modifier.height(6.dp)) // Space between fields
-
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        brush = Brush.horizontalGradient(listOf(Color.Gray, Color.Gray)),
-                        shape = RoundedCornerShape(16.dp)
-                    ),
-                value = country,
-                onValueChange = { country = it },
-                label = { Text("Enter Your Country") }
             )
 
             Spacer(modifier = Modifier.height(6.dp)) // Space between fields
@@ -148,20 +114,6 @@ fun QRCodeSignUp() {
                 label = { Text("Enter Your Password") }
             )
 
-            Spacer(modifier = Modifier.height(6.dp)) // Space between fields
-
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        brush = Brush.horizontalGradient(listOf(Color.Gray, Color.Gray)),
-                        shape = RoundedCornerShape(16.dp)
-                    ),
-                value = confirmpassword,
-                onValueChange = { confirmpassword = it },
-                label = { Text("Confirm Password") }
-            )
-
             Spacer(modifier = Modifier.height(24.dp)) // Space between fields and button
 
             // Sign In Button
@@ -171,25 +123,21 @@ fun QRCodeSignUp() {
                         email.isEmpty() -> {
                             Toast.makeText(context, " Please Enter Mail", Toast.LENGTH_SHORT).show()
                         }
-                        fullname.isEmpty() -> {
-                            Toast.makeText(context, " Please Enter Name", Toast.LENGTH_SHORT).show()
-                        }
 
-                        country.isEmpty() -> {
-                            Toast.makeText(context, " Please Enter Country", Toast.LENGTH_SHORT).show()
-                        }
                         password.isEmpty() -> {
-                            Toast.makeText(context, " Please Enter Password", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, " Please Enter Password", Toast.LENGTH_SHORT)
+                                .show()
                         }
 
                         else -> {
                             val userData = UserData(
-                                fullname,
+                                "",
                                 email,
-                                country,
+                                "",
                                 password
                             )
-                            registerUser(userData,context)
+
+                            userSignIn(userData, context)
                         }
 
                     }
@@ -204,7 +152,7 @@ fun QRCodeSignUp() {
                     )
                 )
             ) {
-                Text(text = "Sign Up", fontSize = 16.sp)
+                Text(text = "Sign In", fontSize = 16.sp)
             }
             Spacer(modifier = Modifier.weight(1f)) // Space between form section and sign-up text
 
@@ -212,15 +160,15 @@ fun QRCodeSignUp() {
             Row(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Text(text = "You are an old tourist ?", fontSize = 14.sp)
+                Text(text = "You are a new tourist ?", fontSize = 14.sp)
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Sign In",
+                    text = "Sign Up",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = colorResource(id = R.color.PureWhite), // Blue text color for "Sign Up"
                     modifier = Modifier.clickable {
-                        context.startActivity(Intent(context, SignInActivity::class.java))
+                        context.startActivity(Intent(context, SignUpActivity::class.java))
                         context.finish()
                     }
                 )
@@ -233,38 +181,40 @@ fun QRCodeSignUp() {
     }
 }
 
-fun registerUser(userData: UserData, context: Context) {
+
+fun userSignIn(userData: UserData, context: Context) {
 
     val firebaseDatabase = FirebaseDatabase.getInstance()
-    val databaseReference = firebaseDatabase.getReference("UserData")
+    val databaseReference =
+        firebaseDatabase.getReference("UserData").child(userData.emailid.replace(".", ","))
 
-    databaseReference.child(userData.emailid.replace(".", ","))
-        .setValue(userData)
-        .addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Toast.makeText(context, "You Registered Successfully", Toast.LENGTH_SHORT)
-                    .show()
+    databaseReference.get().addOnCompleteListener { task ->
+        if (task.isSuccessful) {
+            val dbData = task.result?.getValue(UserData::class.java)
+            if (dbData != null) {
+                if (dbData.password == userData.password) {
+                    QRCodeGeneratorData.writeLS(context, true)
+                    QRCodeGeneratorData.writeMail(context, dbData.emailid)
+                    QRCodeGeneratorData.writeUserName(context, dbData.name)
 
+                    Toast.makeText(context, "Login Sucessfully", Toast.LENGTH_SHORT).show()
+
+                    context.startActivity(Intent(context, QRCodeHomeActivity::class.java))
+                    (context as Activity).finish()
+                } else {
+                    Toast.makeText(context, "Seems Incorrect Credentials", Toast.LENGTH_SHORT)
+                        .show()
+                }
             } else {
-                Toast.makeText(
-                    context,
-                    "Registration Failed",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(context, "Your account not found", Toast.LENGTH_SHORT).show()
             }
-        }
-        .addOnFailureListener { _ ->
+        } else {
             Toast.makeText(
                 context,
                 "Something went wrong",
                 Toast.LENGTH_SHORT
             ).show()
         }
-}
 
-data class UserData(
-    var name : String = "",
-    var emailid : String = "",
-    var country : String = "",
-    var password: String = ""
-)
+    }
+}

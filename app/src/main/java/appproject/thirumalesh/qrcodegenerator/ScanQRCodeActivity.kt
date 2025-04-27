@@ -1,5 +1,6 @@
-package com.example.qrcodegenerator
+package appproject.thirumalesh.qrcodegenerator
 
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Size
@@ -16,6 +17,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -99,7 +101,10 @@ fun QRScannerScreen() {
             Image(
                 modifier = Modifier
                     .padding(12.dp)
-                    .size(36.dp),
+                    .size(36.dp)
+                    .clickable {
+                        (context as Activity).finish()
+                    },
                 painter = painterResource(id = R.drawable.baseline_arrow_back_36),
                 contentDescription = "Back"
             )

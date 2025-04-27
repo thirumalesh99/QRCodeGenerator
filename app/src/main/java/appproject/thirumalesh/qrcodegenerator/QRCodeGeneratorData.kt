@@ -1,4 +1,4 @@
-package com.example.qrcodegenerator
+package appproject.thirumalesh.qrcodegenerator
 
 import android.content.Context
 

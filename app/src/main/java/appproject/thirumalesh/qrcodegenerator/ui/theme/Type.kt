@@ -1,4 +1,4 @@
-package com.example.qrcodegenerator.ui.theme
+package appproject.thirumalesh.qrcodegenerator.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
