@@ -20,7 +20,8 @@ abstract class QrCodeDatabase : RoomDatabase() {
                     context.applicationContext,
                     QrCodeDatabase::class.java,
                     "qr_code_db"
-                ).build()
+                )
+                    .build()
                 INSTANCE = instance
                 instance
             }

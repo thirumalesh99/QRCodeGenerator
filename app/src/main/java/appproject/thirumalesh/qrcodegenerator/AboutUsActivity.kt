@@ -9,11 +9,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -50,6 +53,7 @@ fun AboutApp() {
             .fillMaxSize()
             .background(Color(0xFFF0F0F0))
             .padding(16.dp)
+            .padding(WindowInsets.systemBars.asPaddingValues())
     ) {
 
         Image(
@@ -78,9 +82,10 @@ fun AboutApp() {
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("Sandeep Sunka")
-                    Text("Email: sunkasandeep35@gmail.com")
-                    Text("Student ID: S3430207")
+                    Text("Thirumaleshlucky")
+                    Text("Email: thirumaleshlucky1999@gmail.com")
+
+
                 }
             }
 
@@ -101,9 +106,9 @@ fun AboutApp() {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Welcome to the Book Sharing App – where stories are shared, not shelved.\n\n" +
-                                "Developed by Sandeep Sunka, this mobile app connects readers and knowledge seekers.\n\n" +
-                                "Thank you for joining our community!",
+                        text = "Welcome to the QR Code App – your gateway to a faster, safer, and smarter way to share and access information.\n" +
+                                "Developed by Thirumaleshlucky, this app is designed to make generating and scanning QR codes easier than ever. \n" +
+                                "Thank you for choosing us to enhance your digital experience!\n",
                     )
                 }
             }

@@ -13,11 +13,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -63,9 +66,9 @@ fun QRCodeSignIn() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = R.color.color1))// Background color for the entire screen // Background color for the entire screen
+            .background(color = colorResource(id = R.color.color1))
+            .padding(WindowInsets.systemBars.asPaddingValues())
     ) {
-        // Top section with an image and blue background
 
         Image(
             modifier = Modifier
@@ -76,12 +79,11 @@ fun QRCodeSignIn() {
         )
 
 
-        // Bottom section with email, password fields, and sign-in button on a white background
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .background(color = colorResource(id = R.color.color1))// Background color for the entire screen
+                .background(color = colorResource(id = R.color.color1))
                 .padding(16.dp), // Padding for the fields
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -99,9 +101,8 @@ fun QRCodeSignIn() {
                 label = { Text("Enter Your Email") }
             )
 
-            Spacer(modifier = Modifier.height(6.dp)) // Space between fields
+            Spacer(modifier = Modifier.height(6.dp))
 
-            // Password Text Field
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -114,9 +115,8 @@ fun QRCodeSignIn() {
                 label = { Text("Enter Your Password") }
             )
 
-            Spacer(modifier = Modifier.height(24.dp)) // Space between fields and button
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Sign In Button
             Button(
                 onClick = {
                     when {
@@ -154,19 +154,18 @@ fun QRCodeSignIn() {
             ) {
                 Text(text = "Sign In", fontSize = 16.sp)
             }
-            Spacer(modifier = Modifier.weight(1f)) // Space between form section and sign-up text
+            Spacer(modifier = Modifier.weight(1f))
 
-            // Sign Up text section
             Row(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Text(text = "You are a new tourist ?", fontSize = 14.sp)
+                Text(text = "You are a new user ?", fontSize = 14.sp)
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = "Sign Up",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = colorResource(id = R.color.PureWhite), // Blue text color for "Sign Up"
+                    color = colorResource(id = R.color.PureWhite),
                     modifier = Modifier.clickable {
                         context.startActivity(Intent(context, SignUpActivity::class.java))
                         context.finish()
@@ -174,7 +173,7 @@ fun QRCodeSignIn() {
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp)) // Space between fields and button
+            Spacer(modifier = Modifier.height(24.dp))
 
         }
 
@@ -197,7 +196,7 @@ fun userSignIn(userData: UserData, context: Context) {
                     QRCodeGeneratorData.writeMail(context, dbData.emailid)
                     QRCodeGeneratorData.writeUserName(context, dbData.name)
 
-                    Toast.makeText(context, "Login Sucessfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Login Successfully", Toast.LENGTH_SHORT).show()
 
                     context.startActivity(Intent(context, QRCodeHomeActivity::class.java))
                     (context as Activity).finish()

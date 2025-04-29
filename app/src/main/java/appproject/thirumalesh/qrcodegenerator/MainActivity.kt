@@ -13,9 +13,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -77,13 +81,7 @@ fun LoadingScreenCheck(isUserLoggedIn: (value: Int) -> Unit, fragmentActivity: F
         LoadingScreen()
     } else {
         val currentStatus = QRCodeGeneratorData.readLS(context)
-//
-//        if(currentStatus)
-//        {
-//            isUserLoggedIn.invoke(1)
-//        }else{
-//            isUserLoggedIn.invoke(2)
-//        }
+
 
         if (currentStatus) {
             val biometricManager = BiometricManager.from(fragmentActivity)
@@ -144,7 +142,8 @@ fun LoadingScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = R.color.color1)),
+            .background(color = colorResource(id = R.color.color1))
+            .padding(WindowInsets.systemBars.asPaddingValues()),
         contentAlignment = Alignment.Center
     ) {
         Column(

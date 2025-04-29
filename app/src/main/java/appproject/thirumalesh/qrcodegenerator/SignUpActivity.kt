@@ -13,11 +13,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -65,9 +68,9 @@ fun QRCodeSignUp() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = R.color.color1))// Background color for the entire screen
+            .background(color = colorResource(id = R.color.color1))
+            .padding(WindowInsets.systemBars.asPaddingValues())
     ) {
-        // Top section with an image and blue background
 
         Image(
             modifier = Modifier
@@ -100,7 +103,7 @@ fun QRCodeSignUp() {
                 label = { Text("Enter FullName") }
             )
 
-            Spacer(modifier = Modifier.height(6.dp)) // Space between fields
+            Spacer(modifier = Modifier.height(6.dp))
 
 
             TextField(
@@ -115,7 +118,7 @@ fun QRCodeSignUp() {
                 label = { Text("Enter Your Email") }
             )
 
-            Spacer(modifier = Modifier.height(6.dp)) // Space between fields
+            Spacer(modifier = Modifier.height(6.dp))
 
             TextField(
                 modifier = Modifier
@@ -129,9 +132,8 @@ fun QRCodeSignUp() {
                 label = { Text("Enter Your Country") }
             )
 
-            Spacer(modifier = Modifier.height(6.dp)) // Space between fields
+            Spacer(modifier = Modifier.height(6.dp))
 
-            // Password Text Field
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -144,7 +146,7 @@ fun QRCodeSignUp() {
                 label = { Text("Enter Your Password") }
             )
 
-            Spacer(modifier = Modifier.height(6.dp)) // Space between fields
+            Spacer(modifier = Modifier.height(6.dp))
 
             TextField(
                 modifier = Modifier
@@ -158,9 +160,8 @@ fun QRCodeSignUp() {
                 label = { Text("Confirm Password") }
             )
 
-            Spacer(modifier = Modifier.height(24.dp)) // Space between fields and button
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Sign In Button
             Button(
                 onClick = {
                     when {
@@ -202,19 +203,18 @@ fun QRCodeSignUp() {
             ) {
                 Text(text = "Sign Up", fontSize = 16.sp)
             }
-            Spacer(modifier = Modifier.weight(1f)) // Space between form section and sign-up text
+            Spacer(modifier = Modifier.weight(1f))
 
-            // Sign Up text section
             Row(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Text(text = "You are an old tourist ?", fontSize = 14.sp)
+                Text(text = "You are an old user ?", fontSize = 14.sp)
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = "Sign In",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = colorResource(id = R.color.PureWhite), // Blue text color for "Sign Up"
+                    color = colorResource(id = R.color.PureWhite),
                     modifier = Modifier.clickable {
                         context.startActivity(Intent(context, SignInActivity::class.java))
                         context.finish()
@@ -222,7 +222,7 @@ fun QRCodeSignUp() {
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp)) // Space between fields and button
+            Spacer(modifier = Modifier.height(24.dp))
 
         }
 
@@ -233,7 +233,6 @@ fun registerUser(userData: UserData, context: Context) {
 
     val firebaseDatabase = FirebaseDatabase.getInstance()
     val databaseReference = firebaseDatabase.getReference("UserData")
-
     databaseReference.child(userData.emailid.replace(".", ","))
         .setValue(userData)
         .addOnCompleteListener { task ->
