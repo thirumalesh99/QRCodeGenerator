@@ -66,8 +66,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
-    implementation(libs.androidx.room.common.jvm)
-    implementation(libs.androidx.room.runtime.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -95,7 +93,7 @@ dependencies {
 
 
     implementation("androidx.biometric:biometric:1.4.0-alpha02")
-    implementation(kotlin("script-runtime"))
+
 
 
 }
