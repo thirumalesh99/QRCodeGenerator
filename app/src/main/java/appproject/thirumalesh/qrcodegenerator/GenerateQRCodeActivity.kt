@@ -222,10 +222,11 @@ fun GenerateQRCodeScreen(context: Context = LocalContext.current) {
                                 )
                             )
 
-
-                            Toast.makeText(context, "QR Code Saved", Toast.LENGTH_SHORT).show()
                             (context as Activity).finish()
                         }
+
+                        Toast.makeText(context, "QR Code Saved", Toast.LENGTH_SHORT).show()
+
                     },
                     modifier = Modifier
                         .fillMaxWidth()
